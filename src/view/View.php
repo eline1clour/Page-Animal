@@ -30,9 +30,10 @@ class View {
         $this->content = "Ceci est le contenu";
     }
 
-    public function prepareAnimalPage($name, $species):void {
-        $this->title = "Page sur " . $name;
-        $this->content = $name . " est un animal de l'espèce " . $species;
+    public function prepareAnimalPage(Animal $animal):void {
+        $this->title = "Page sur " . $animal->getNom();
+        $this->content = $animal->getNom() . " est un animal de l'espèce " . $animal->getEspece() . ". Il est 
+        agé de " . $animal->getAge() . " ans";
     }
 
     public function prepareUnknownAnimalPage(): void {
