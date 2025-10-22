@@ -1,7 +1,12 @@
 <?php
+require_once('view/View.php');
 
 class Router {
     public function main() {
-        echo "Hello World";
+        $view = new View("","");
+        //$view->prepareTestPage();
+        $view->prepareAnimalPage("Médor","chien");
+        $view->render();
+         
     }
 }
