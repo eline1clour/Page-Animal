@@ -22,4 +22,8 @@ class Controller {
         }
 	     
     }
+
+    public function showPageAccueil() {
+        $this->view->preparePageAccueil();
+    }
 }

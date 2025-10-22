@@ -39,4 +39,9 @@ class View {
         $this->title = "Erreur";
         $this->content = "Animal inconnu";
     }
+
+    public function preparePageAccueil(): void {
+        $this->title = "Page d'accueil";
+        $this->content = "On se trouve dans la page d'accueil";
+    }
 }

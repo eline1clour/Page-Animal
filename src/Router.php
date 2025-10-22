@@ -6,10 +6,16 @@ class Router {
     public function main() {
         $view = new View("","");
         $controller = new Controller($view);
-        $controller->showInformation("félix");
+
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $controller->showInformation($id);
+        } else {
+            $controller->showPageAccueil();
+        }
+        //$controller->showInformation($id);
         //$view->prepareTestPage();
         //$view->prepareAnimalPage("Médor","chien");
         $view->render();
-         
     }
 }
