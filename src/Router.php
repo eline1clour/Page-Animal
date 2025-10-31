@@ -1,11 +1,13 @@
 <?php
 require_once('view/View.php');
 require_once('control/Controller.php');
+require_once('model/AnimalStorageStub.php');
 
 class Router {
-    public function main() {
+    public function main(AnimalStorage $animalStorageStub) {
         $view = new View("","",$this);
-        $controller = new Controller($view);
+        
+        $controller = new Controller($view,$animalStorageStub);
 
         if (isset($_GET['id'])) {
             $id = $_GET['id'];

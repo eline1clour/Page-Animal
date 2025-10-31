@@ -13,6 +13,8 @@ require_once("Router.php");
  * sur notre site. On se contente de créer un routeur
  * et de lancer son main.
  */
+$animalStorage = new AnimalStorageStub();
+
 $router = new Router();
-$router->main();
+$router->main($animalStorage);
 ?>
