@@ -19,11 +19,14 @@ class Controller {
             $this->view->prepareAnimalPage($this->animalsTab[$id]);
         } else {
             $this->view->prepareUnknownAnimalPage();
-        }
-	     
+        } 
     }
 
-    public function showPageAccueil() {
+    public function showPageAccueil(): void {
         $this->view->preparePageAccueil();
+    }
+
+    public function showList(): void {
+        $this->view->prepareListPage($this->animalsTab);
     }
 }

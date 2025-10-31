@@ -4,7 +4,7 @@ require_once('control/Controller.php');
 
 class Router {
     public function main() {
-        $view = new View("","");
+        $view = new View("","",$this);
         $controller = new Controller($view);
 
         if (isset($_GET['id'])) {
@@ -13,9 +13,17 @@ class Router {
         } else {
             $controller->showPageAccueil();
         }
+
+        if(isset($_GET['action']) && $_GET['action'] === 'liste') {
+            $controller->showList();
+        }
         //$controller->showInformation($id);
         //$view->prepareTestPage();
         //$view->prepareAnimalPage("Médor","chien");
         $view->render();
+    }
+
+    public function getAnimalURL($id): String {
+        return "site.php?id=$id";
     }
 }

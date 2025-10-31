@@ -3,10 +3,12 @@
 class View {
     private String $title;
     private String $content;
+    private Router $router;
 
-    public function __construct(String $title,String $content) {
+    public function __construct(String $title,String $content, Router $router) {
         $this->title = $title;
         $this->content = $content;
+        $this->router = $router;
     }
 
     public function render():void {
@@ -43,6 +45,22 @@ class View {
 
     public function preparePageAccueil(): void {
         $this->title = "Page d'accueil";
-        $this->content = "On se trouve dans la page d'accueil";
+        $this->content = "On se trouve dans la " . $this->title;
+    }
+
+    public function prepareListPage(array $tabAnimals): void {
+        $this->title = "List Page";
+        $listAnimals = "<ul>";
+        foreach ($tabAnimals as $id => $animal) {
+            $animalURL = $this->router->getAnimalURL($id);
+            $listAnimals .= "<li><a href=\"$animalURL\">" . $animal->getNom() . "</a></li>";
+        }
+        $listAnimals .= "</ul>";
+        $this->content = $listAnimals;
+    }
+
+    public function prepareUnknownPage(): void {
+        $this->title = "Erreur";
+        $this->content = "Page inconnu";
     }
 }
