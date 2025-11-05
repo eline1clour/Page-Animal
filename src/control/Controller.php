@@ -11,7 +11,7 @@ class Controller {
     }
 
     public function showInformation($id):void {
-        if ($this->animalStorage->read($id) != null) {
+        if ($this->animalStorage->read($id) !== null) {
             $this->view->prepareAnimalPage($this->animalStorage->read($id));
         } else {
             $this->view->prepareUnknownAnimalPage();
