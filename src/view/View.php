@@ -4,27 +4,20 @@ class View {
     private String $title;
     private String $content;
     private Router $router;
+    private array $menu;
 
     public function __construct(String $title,String $content, Router $router) {
         $this->title = $title;
         $this->content = $content;
         $this->router = $router;
+        $this->menu = [
+            ['url' => 'site.php', 'texte' => 'Accueil'],
+            ['url' => 'site.php?action=liste', 'texte' => 'Liste des animaux']
+        ];
     }
 
     public function render():void {
-        echo <<<HTML
-        <!DOCTYPE html>
-        <html lang="fr">
-        <head>
-            <meta charset="UTF-8">
-            <title>$this->title</title>
-        </head>
-        <body>
-            <h1>$this->title</h1>
-            <p>$this->content</p>
-        </body>
-        </html>
-        HTML;
+        include('squelette.php');
     }
 
     public function prepareTestPage():void {

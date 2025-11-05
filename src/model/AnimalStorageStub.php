@@ -13,7 +13,7 @@ class AnimalStorageStub implements AnimalStorage {
         );
     }
 
-    public function read($id): Animal {
+    public function read($id): ?Animal {
         if (key_exists($id, $this->animalsTab)) {
             return $this->animalsTab[$id];
         } else {
