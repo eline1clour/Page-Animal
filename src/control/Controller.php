@@ -10,7 +10,7 @@ class Controller {
         $this->animalStorage = $animalStorage;
     }
 
-    public function showInformation($id):void {
+    public function showInformation($id) {
         if ($this->animalStorage->read($id) !== null) {
             $this->view->prepareAnimalPage($this->animalStorage->read($id));
         } else {
@@ -18,11 +18,11 @@ class Controller {
         }
     }
 
-    public function showPageAccueil(): void {
+    public function showPageAccueil() {
         $this->view->preparePageAccueil();
     }
 
-    public function showList(): void {
+    public function showList() {
         $this->view->prepareListPage($this->animalStorage->readAll());
     }
 }

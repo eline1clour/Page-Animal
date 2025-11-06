@@ -13,7 +13,7 @@ class AnimalStorageStub implements AnimalStorage {
         );
     }
 
-    public function read($id): ?Animal {
+    public function read($id) {
         if (key_exists($id, $this->animalsTab)) {
             return $this->animalsTab[$id];
         } else {
@@ -21,7 +21,19 @@ class AnimalStorageStub implements AnimalStorage {
         }
     }
 
-    public function readAll(): array {
+    public function readAll() {
         return $this->animalsTab;
+    }
+
+    public function create(Animal $a) {
+        throw new Exception("Impossible de créer un animal dans cette pseudo-base");
+    }
+
+    public function delete(String $id) {
+        throw new Exception("Impossible de supprimer un animal dans cette pseudo-base");
+    }
+
+    public function update(String $id, Animal $a) {
+        throw new Exception("Impossible de mettre à jour un animal dans cette pseudo-base");
     }
 }

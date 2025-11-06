@@ -11,15 +11,15 @@ class Animal {
         $this->age = $age;
     }
 
-    public function getNom(): String {
+    public function getNom() {
         return $this->nom;
     }
 
-    public function getEspece(): String {
+    public function getEspece() {
         return $this->espece;
     }
 
-    public function getAge(): int {
+    public function getAge() {
         return $this->age;
     }
 }
