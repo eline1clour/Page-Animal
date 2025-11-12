@@ -1,5 +1,5 @@
 <?php
-
+require_once('model/AnimalBuilder.php');
 class View {
     private String $title;
     private String $content;
@@ -62,18 +62,16 @@ class View {
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)).'</pre>';
     }
 
-    public function prepareAnimalCreationPage($data, $error) {
-        $nom = isset($data['nom']) ? $data['nom'] : '';
-        $espece = isset($data['espece']) ? $data['espece'] : '';
-        $age = isset($data['age']) ? $data['age'] : '';
+    public function prepareAnimalCreationPage(AnimalBuilder $animalBuilder) {
+        $nom = isset($animalBuilder->getData()[AnimalBuilder::NAME_REF]) ? $animalBuilder->getData()[AnimalBuilder::NAME_REF] : '';
+        $espece = isset($animalBuilder->getData()[AnimalBuilder::SPECIES_REF]) ? $animalBuilder->getData()[AnimalBuilder::SPECIES_REF] : '';
+        $age = isset($animalBuilder->getData()[AnimalBuilder::AGE_REF]) ? $animalBuilder->getData()[AnimalBuilder::AGE_REF] : '';
 
-
-        if ($error) {
+        if ($animalBuilder->getError()) {
             $this->title = 'Formulaire Incorrect';
-            $this->content = $error;
-        } else {
-            $error = null;
+            $this->content = $animalBuilder->getError();
         }
+
         $saveURL = $this->router->getAnimalSaveURL();
         echo <<<HTML
             <!DOCTYPE html>
