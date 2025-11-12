@@ -26,8 +26,8 @@ class View {
     }
 
     public function prepareAnimalPage(Animal $animal) {
-        $this->title = "Page sur " . $animal->getNom();
-        $this->content = $animal->getNom() . " est un animal de l'espèce " . $animal->getEspece() . ". Il est 
+        $this->title = "Page sur " . htmlspecialchars($animal->getNom());
+        $this->content = htmlspecialchars($animal->getNom()) . " est un animal de l'espèce " . htmlspecialchars($animal->getEspece()) . ". Il est 
         agé de " . $animal->getAge() . " ans";
     }
 
@@ -62,7 +62,18 @@ class View {
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)).'</pre>';
     }
 
-    public function prepareAnimalCreationPage() {
+    public function prepareAnimalCreationPage($data, $error) {
+        $nom = isset($data['nom']) ? $data['nom'] : '';
+        $espece = isset($data['espece']) ? $data['espece'] : '';
+        $age = isset($data['age']) ? $data['age'] : '';
+
+
+        if ($error) {
+            $this->title = 'Formulaire Incorrect';
+            $this->content = $error;
+        } else {
+            $error = null;
+        }
         $saveURL = $this->router->getAnimalSaveURL();
         echo <<<HTML
             <!DOCTYPE html>
@@ -74,18 +85,23 @@ class View {
             <body>
                 <form action="$saveURL" method="post">
                     <label>Nom: 
-                        <input type='text' name='nom' value=""/>
+                        <input type='text' name='nom' value="$nom"/>
                     </label>
                     <label>Espèce: 
-                        <input type='text' name='espece' value=""/>
+                        <input type='text' name='espece' value="$espece"/>
                     </label>
                     <label>Âge: 
-                        <input type='number' name='age' value=""/>
+                        <input type='number' name='age' value="$age"/>
                     </label>
                     <button type="submit">Enregistrer</button>
                 </form>
             </body>
             </html>
         HTML;
+    }
+
+    public function prepareErrorPage() {
+        $this->title = "Formulaire Incorrect";
+        $this->content = "Veuillez remplir tous les champs du formualaire au format correct";
     }
 }
