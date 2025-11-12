@@ -47,4 +47,9 @@ class Router {
     public function getAnimalSaveURL() {
         return "site.php?action=sauverNouveau";
     }
+
+    public function POSTredirect($url, $feedback) {
+        header("Location: $url", true, 303);
+        exit;
+    }
 }

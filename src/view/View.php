@@ -98,8 +98,9 @@ class View {
         HTML;
     }
 
-    public function prepareErrorPage() {
-        $this->title = "Formulaire Incorrect";
-        $this->content = "Veuillez remplir tous les champs du formualaire au format correct";
+    public function displayAnimalCreationSuccess($id) {
+        $url = $this->router->getAnimalURL($id);
+        $this->router->POSTredirect($url,"feedback");
     }
+
 }
