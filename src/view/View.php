@@ -61,4 +61,31 @@ class View {
         $this->title = 'Debug';
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)).'</pre>';
     }
+
+    public function prepareAnimalCreationPage() {
+        $saveURL = $this->router->getAnimalSaveURL();
+        echo <<<HTML
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <title>$this->title</title>
+            </head>
+            <body>
+                <form action="$saveURL" method="post">
+                    <label>Nom: 
+                        <input type='text' name='nom' value=""/>
+                    </label>
+                    <label>Espèce: 
+                        <input type='text' name='espece' value=""/>
+                    </label>
+                    <label>Âge: 
+                        <input type='number' name='age' value=""/>
+                    </label>
+                    <button type="submit">Enregistrer</button>
+                </form>
+            </body>
+            </html>
+        HTML;
+    }
 }

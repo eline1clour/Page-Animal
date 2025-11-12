@@ -6,22 +6,45 @@ class Router {
     public function main(AnimalStorage $animalStorage) {
         $view = new View("","",$this);
         $controller = new Controller($view,$animalStorage);
+        
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $action = isset($_GET['action']) ? $_GET['action'] : null;
 
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $view->prepareDebugPage($id);
-            $controller->showInformation($id);
-        } else {
-            $controller->showPageAccueil();
+        switch ($id) {
+            case null:
+                $controller->showPageAccueil();
+                break;
+            
+            default:
+                $controller->showInformation($id);
+                break;
         }
 
-        if(isset($_GET['action']) && $_GET['action'] === 'liste') {
-            $controller->showList();
+        switch ($action) {
+            case 'liste':
+                $controller->showList();
+                break;
+            case 'nouveau':
+                $controller->createNewAnimal();
+                break;
+            case 'sauverNouveau':
+                $controller->saveNewAnimal($_POST);
+                break;
         }
+        
+        
         $view->render();
     }
 
     public function getAnimalURL($id) {
         return "site.php?id=$id";
+    }
+
+    public function getAnimalCreationURL() {
+        return "site.php?action=nouveau";
+    }
+
+    public function getAnimalSaveURL() {
+        return "site.php?action=sauverNouveau";
     }
 }
