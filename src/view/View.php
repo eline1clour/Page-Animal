@@ -5,8 +5,9 @@ class View {
     private String $content;
     private Router $router;
     private array $menu;
+    private $feedback;
 
-    public function __construct(String $title,String $content, Router $router) {
+    public function __construct(String $title,String $content, Router $router, $feedback) {
         $this->title = $title;
         $this->content = $content;
         $this->router = $router;
@@ -14,6 +15,11 @@ class View {
             ['url' => 'site.php', 'texte' => 'Accueil'],
             ['url' => 'site.php?action=liste', 'texte' => 'Liste des animaux']
         ];
+        $this->feedback = $feedback;
+    }
+
+    public function getFeedback() {
+        return $this->feedback;
     }
 
     public function render() {
@@ -26,6 +32,7 @@ class View {
     }
 
     public function prepareAnimalPage(Animal $animal) {
+        $this->feedback = "L'animal " . htmlspecialchars($animal->getNom()) . " a été crée avec succés.";
         $this->title = "Page sur " . htmlspecialchars($animal->getNom());
         $this->content = htmlspecialchars($animal->getNom()) . " est un animal de l'espèce " . htmlspecialchars($animal->getEspece()) . ". Il est 
         agé de " . $animal->getAge() . " ans";
@@ -68,8 +75,9 @@ class View {
         $age = isset($animalBuilder->getData()[AnimalBuilder::AGE_REF]) ? $animalBuilder->getData()[AnimalBuilder::AGE_REF] : '';
 
         if ($animalBuilder->getError()) {
-            $this->title = 'Formulaire Incorrect';
+            $this->title = "Formulaire Incorrect";
             $this->content = $animalBuilder->getError();
+            $this->feedback = "Erreur de création de l'animal";
         }
 
         $saveURL = $this->router->getAnimalSaveURL();
@@ -100,7 +108,7 @@ class View {
 
     public function displayAnimalCreationSuccess($id) {
         $url = $this->router->getAnimalURL($id);
-        $this->router->POSTredirect($url,"feedback");
+        $this->router->POSTredirect($url,$this->feedback);
     }
 
 }

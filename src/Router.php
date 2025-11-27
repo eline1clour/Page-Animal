@@ -4,7 +4,9 @@ require_once('control/Controller.php');
 
 class Router {
     public function main(AnimalStorage $animalStorage) {
-        $view = new View("","",$this);
+        $feedback = $_SESSION['feedback'] ?? null;
+        $view = new View("","",$this,$feedback);
+        unset($feedback);
         $controller = new Controller($view,$animalStorage);
         
         $id = isset($_GET['id']) ? $_GET['id'] : null;
@@ -49,6 +51,7 @@ class Router {
     }
 
     public function POSTredirect($url, $feedback) {
+        $_SESSION['feedback'] = $feedback;
         header("Location: $url", true, 303);
         exit;
     }

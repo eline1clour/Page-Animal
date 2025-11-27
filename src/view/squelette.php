@@ -5,6 +5,9 @@
     <title><?php echo $this->title ?></title>
 </head>
 <body>
+    <?php if ($this->feedback): ?>
+        <p><?php echo $this->feedback ?></p>
+    <?php endif ?>
     <nav>
         <ul>
             <?php foreach ($this->menu as $item): ?>

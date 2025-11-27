@@ -11,8 +11,6 @@ class Controller {
         $this->animalStorage = $animalStorage;
     }
 
-    
-
     public function showInformation($id) {
         if ($this->animalStorage->read($id) !== null) {
             $this->view->prepareAnimalPage($this->animalStorage->read($id));
@@ -39,7 +37,9 @@ class Controller {
         if ($animalBuilder->isValid()) {
             $a = $animalBuilder->createAnimal();
             $id = $this->animalStorage->create($a);
+
             $this->view->displayAnimalCreationSuccess($id);
+
         } else {
             $this->view->prepareAnimalCreationPage($animalBuilder);
         }
