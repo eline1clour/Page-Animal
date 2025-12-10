@@ -22,6 +22,10 @@ class View {
         return $this->feedback;
     }
 
+    public function setFeedback($feedback) {
+        $this->feedback = $feedback;
+    }
+
     public function render() {
         include('squelette.php');
     }
@@ -32,15 +36,22 @@ class View {
     }
 
     public function prepareAnimalPage(Animal $animal) {
-        $this->feedback = "L'animal " . htmlspecialchars($animal->getNom()) . " a été crée avec succés.";
         $this->title = "Page sur " . htmlspecialchars($animal->getNom());
-        $this->content = htmlspecialchars($animal->getNom()) . " est un animal de l'espèce " . htmlspecialchars($animal->getEspece()) . ". Il est 
+        $imagePath = $animal->getCheminVersImage();
+        $this->content = '<img src="' . $imagePath . '" alt= "' . htmlspecialchars($animal->getNom() . "_image") . '" />';
+        $this->content .= htmlspecialchars($animal->getNom()) . " est un animal de l'espèce " . htmlspecialchars($animal->getEspece()) . ". Il est 
         agé de " . $animal->getAge() . " ans";
+         
     }
 
     public function prepareUnknownAnimalPage() {
         $this->title = "Erreur";
         $this->content = "Animal inconnu";
+    }
+
+    public function prepareUnknownActionPage() {
+        $this->title = "Page d'erreur";
+        $this->content = "Action non reconnu";
     }
 
     public function preparePageAccueil() {
@@ -59,29 +70,33 @@ class View {
         $this->content = $listAnimals;
     }
 
-    public function prepareUnknownPage() {
-        $this->title = "Erreur";
-        $this->content = "Page inconnu";
-    }
 
     public function prepareDebugPage($variable) {
         $this->title = 'Debug';
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)).'</pre>';
     }
 
-    public function prepareAnimalCreationPage(AnimalBuilder $animalBuilder) {
-        $nom = isset($animalBuilder->getData()[AnimalBuilder::NAME_REF]) ? $animalBuilder->getData()[AnimalBuilder::NAME_REF] : '';
-        $espece = isset($animalBuilder->getData()[AnimalBuilder::SPECIES_REF]) ? $animalBuilder->getData()[AnimalBuilder::SPECIES_REF] : '';
-        $age = isset($animalBuilder->getData()[AnimalBuilder::AGE_REF]) ? $animalBuilder->getData()[AnimalBuilder::AGE_REF] : '';
+    public function prepareErrorImagePage() {
+        $this->title = "Erreur de l'upload";
+        $this->content = "Veuillez selectionner une image correcte [.jpeg, .jpg, .gif, .png]";
+    }
 
-        if ($animalBuilder->getError()) {
-            $this->title = "Formulaire Incorrect";
-            $this->content = $animalBuilder->getError();
-            $this->feedback = "Erreur de création de l'animal";
+    public function prepareAnimalCreationPage(AnimalBuilder $animalBuilder) {
+        $this->title = "Ajouter un animal";
+        $nom = key_exists(AnimalBuilder::NAME_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::NAME_REF] : "";
+        $espece = key_exists(AnimalBuilder::SPECIES_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::SPECIES_REF] : "";
+        $age = key_exists(AnimalBuilder::AGE_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::AGE_REF] : "";
+        $image = key_exists(AnimalBuilder::IMAGE_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::IMAGE_REF] : "";
+        $error = $animalBuilder->getError();
+
+        if($error !== null) {
+            $this->title = "Formulaire incorrect";
+            $this->content = "Vos champs ne sont pas valide: " . $error;
         }
+        
 
         $saveURL = $this->router->getAnimalSaveURL();
-        echo <<<HTML
+        $this->content .= <<<HTML
             <!DOCTYPE html>
             <html lang="fr">
             <head>
@@ -89,7 +104,10 @@ class View {
                 <title>$this->title</title>
             </head>
             <body>
-                <form action="$saveURL" method="post">
+                <form enctype="multipart/form-data" action="$saveURL" method="post">
+                    <label>selectionner une image: 
+                        <input type="file" name="image_animal"/>
+                    </label>
                     <label>Nom: 
                         <input type='text' name='nom' value="$nom"/>
                     </label>
@@ -99,7 +117,7 @@ class View {
                     <label>Âge: 
                         <input type='number' name='age' value="$age"/>
                     </label>
-                    <button type="submit">Enregistrer</button>
+                    <button type="submit" name='submit'>Enregistrer</button>
                 </form>
             </body>
             </html>
@@ -108,6 +126,7 @@ class View {
 
     public function displayAnimalCreationSuccess($id) {
         $url = $this->router->getAnimalURL($id);
+        $this->feedback = "Succès de la création de l'animal";
         $this->router->POSTredirect($url,$this->feedback);
     }
 
