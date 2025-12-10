@@ -38,10 +38,14 @@ class View {
     public function prepareAnimalPage(Animal $animal) {
         $this->title = "Page sur " . htmlspecialchars($animal->getNom());
         $imagePath = $animal->getCheminVersImage();
-        $this->content = '<img src="' . $imagePath . '" alt= "' . htmlspecialchars($animal->getNom() . "_image") . '" />';
-        $this->content .= htmlspecialchars($animal->getNom()) . " est un animal de l'espèce " . htmlspecialchars($animal->getEspece()) . ". Il est 
-        agé de " . $animal->getAge() . " ans";
-         
+        $this->content = "<div class='animal-page'>
+            <img src='$imagePath' alt='" . htmlspecialchars($animal->getNom()) . "_image' class='animal-picture'>
+            <p class='animal-text'>" .
+            htmlspecialchars($animal->getNom()) 
+            . " est un animal de l'espèce " 
+            . htmlspecialchars($animal->getEspece()) 
+            . ". Il est âgé de " 
+            . $animal->getAge() . " ans.</p></div>";
     }
 
     public function prepareUnknownAnimalPage() {
@@ -89,10 +93,10 @@ class View {
         $image = key_exists(AnimalBuilder::IMAGE_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::IMAGE_REF] : "";
         $error = $animalBuilder->getError();
 
-        if($error !== null) {
+        /*if($error !== null) {
             $this->title = "Formulaire incorrect";
             $this->content = "Vos champs ne sont pas valide: " . $error;
-        }
+        }*/
         
 
         $saveURL = $this->router->getAnimalSaveURL();
@@ -101,6 +105,7 @@ class View {
             <html lang="fr">
             <head>
                 <meta charset="UTF-8">
+                <link rel="stylesheet" href="src/view/site.css" />
                 <title>$this->title</title>
             </head>
             <body>
@@ -119,6 +124,11 @@ class View {
                     </label>
                     <button type="submit" name='submit'>Enregistrer</button>
                 </form>
+        HTML;
+        if($error !== null) {
+            $this->content .= "<p class='error'>$error</p>";
+        }
+        $this->content .= <<<HTML
             </body>
             </html>
         HTML;

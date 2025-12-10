@@ -2,11 +2,12 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="src/view/site.css" />
     <title><?php echo $this->title ?></title>
 </head>
 <body>
-    <?php if ($this->feedback): ?>
-        <p><?php echo $this->feedback ?></p>
+    <?php if ($this->feedback !== ''): ?>
+        <div class='feedback'><?php echo $this->feedback ?></div>
     <?php endif ?>
     <nav>
         <ul>
