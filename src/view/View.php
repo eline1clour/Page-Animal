@@ -39,7 +39,7 @@ class View {
         $this->title = "Page sur " . htmlspecialchars($animal->getNom());
         $imagePath = $animal->getCheminVersImage();
         $this->content = "<div class='animal-page'>
-            <img src='$imagePath' alt='" . htmlspecialchars($animal->getNom()) . "_image' class='animal-picture'>
+            <img src='$imagePath' alt='" . htmlspecialchars($animal->getNom()) . "_image' class='animal-image'>
             <p class='animal-text'>" .
             htmlspecialchars($animal->getNom()) 
             . " est un animal de l'espèce " 
@@ -49,26 +49,34 @@ class View {
     }
 
     public function prepareUnknownAnimalPage() {
-        $this->title = "Erreur";
-        $this->content = "Animal inconnu";
+        $this->title = "Page d'erreur";
+        $this->content = "<div class='error-page'>
+                <h2>Animal Inconnu</h2>
+                <p>Désolé, l'animal que vous cherchez n'existe pas dans notre base de données. Veuillez vous référer à notre <a href='site.php?action=liste'>liste d'animaux</a>.</p>
+            </div>";
     }
 
     public function prepareUnknownActionPage() {
-        $this->title = "Page d'erreur";
-        $this->content = "Action non reconnu";
+        $this->title = "Page introuvable";
+        $this->content = "<div class='error-page'>
+                <h2>Action non reconnu</h2>
+                <p>L'action que vous avez démandé n'est pas valide. Veuillez vérifier l'URL ou retourner à la <a href='site.php'>page d'accueil</a>.</p>
+            </div>";
     }
 
     public function preparePageAccueil() {
         $this->title = "Page d'accueil";
-        $this->content = "On se trouve dans la " . $this->title;
+        $this->content = "<div class='accueil-page'>
+                <p class='accueil-text'>On se trouve dans la " . $this->title . ".</p>
+            </div>";
     }
 
     public function prepareListPage(array $tabAnimals) {
         $this->title = "List Page";
-        $listAnimals = "<ul>";
+        $listAnimals = "<ul class='animal-list'>";
         foreach ($tabAnimals as $id => $animal) {
             $animalURL = $this->router->getAnimalURL($id);
-            $listAnimals .= "<li><a href=\"$animalURL\">" . $animal->getNom() . "</a></li>";
+            $listAnimals .= "<li><a href=\"$animalURL\">" . htmlspecialchars($animal->getNom()) . "</a></li>";
         }
         $listAnimals .= "</ul>";
         $this->content = $listAnimals;
@@ -80,11 +88,6 @@ class View {
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)).'</pre>';
     }
 
-    public function prepareErrorImagePage() {
-        $this->title = "Erreur de l'upload";
-        $this->content = "Veuillez selectionner une image correcte [.jpeg, .jpg, .gif, .png]";
-    }
-
     public function prepareAnimalCreationPage(AnimalBuilder $animalBuilder) {
         $this->title = "Ajouter un animal";
         $nom = key_exists(AnimalBuilder::NAME_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::NAME_REF] : "";
@@ -92,12 +95,6 @@ class View {
         $age = key_exists(AnimalBuilder::AGE_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::AGE_REF] : "";
         $image = key_exists(AnimalBuilder::IMAGE_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::IMAGE_REF] : "";
         $error = $animalBuilder->getError();
-
-        /*if($error !== null) {
-            $this->title = "Formulaire incorrect";
-            $this->content = "Vos champs ne sont pas valide: " . $error;
-        }*/
-        
 
         $saveURL = $this->router->getAnimalSaveURL();
         $this->content .= <<<HTML
@@ -110,7 +107,7 @@ class View {
             </head>
             <body>
                 <form enctype="multipart/form-data" action="$saveURL" method="post">
-                    <label>selectionner une image: 
+                    <label>Séléctionner une image: 
                         <input type="file" name="image_animal"/>
                     </label>
                     <label>Nom: 
@@ -122,7 +119,7 @@ class View {
                     <label>Âge: 
                         <input type='number' name='age' value="$age"/>
                     </label>
-                    <button type="submit" name='submit'>Enregistrer</button>
+                    <button type="submit" name='submit'>Créer votre animal</button>
                 </form>
         HTML;
         if($error !== null) {
