@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Classe pour stocker les animaux crée dans notre base MySQL.
+ * Elle implémente AnimalStorage et enregistre les animaux dans la base. 
+ */
+
 class AnimalStorageMySQL implements AnimalStorage {
     private $pdo;
 

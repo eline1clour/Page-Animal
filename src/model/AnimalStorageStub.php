@@ -2,6 +2,9 @@
 require_once('AnimalStorage.php');
 require_once('Animal.php');
 
+/**
+ * Classe de stokage simulé d'animaux pour les tests.
+ */
 class AnimalStorageStub implements AnimalStorage {
     private array $animalsTab;
 

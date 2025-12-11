@@ -1,5 +1,10 @@
 <?php
 require_once('model/AnimalBuilder.php');
+
+/**
+ * Classe qui gère l'affichage des pages du site.
+ * Cette classe prépare les différentes vues (pages) et les affiche en fonction des données fournies par le contrôleur.
+ */
 class View {
     private String $title;
     private String $content;
@@ -35,6 +40,12 @@ class View {
         $this->content = "Ceci est le contenu";
     }
 
+    /**
+     * Prépare la page d'un animal, avec son nom, son espèce, son âge et son image.
+     * 
+     * @param Animal $animal L'objet Animal contenant les informations de l'animal.
+     */
+
     public function prepareAnimalPage(Animal $animal) {
         $this->title = "Page sur " . htmlspecialchars($animal->getNom());
         $imagePath = $animal->getCheminVersImage();
@@ -48,6 +59,9 @@ class View {
             . $animal->getAge() . " ans.</p></div>";
     }
 
+    /**
+     * Page d'erreur lorsque l'animal n'est pas trouvé.
+     */
     public function prepareUnknownAnimalPage() {
         $this->title = "Page d'erreur";
         $this->content = "<div class='error-page'>
@@ -56,6 +70,9 @@ class View {
             </div>";
     }
 
+    /**
+     * Prépare la page d'erreur lorsqu'une action inconnue est demandée.
+     */
     public function prepareUnknownActionPage() {
         $this->title = "Page introuvable";
         $this->content = "<div class='error-page'>
@@ -64,6 +81,9 @@ class View {
             </div>";
     }
 
+    /**
+     * Prépare la page d'accueil du site.
+     */
     public function preparePageAccueil() {
         $this->title = "Page d'accueil";
         $this->content = "<div class='accueil-page'>
@@ -71,6 +91,11 @@ class View {
             </div>";
     }
 
+    /**
+     * Prépare la page de liste des animaux.
+     * 
+     * @param array $tabAnimals un tableau contenant tous les animaux à afficher.
+     */
     public function prepareListPage(array $tabAnimals) {
         $this->title = "List Page";
         $listAnimals = "<ul class='animal-list'>";
@@ -82,12 +107,16 @@ class View {
         $this->content = $listAnimals;
     }
 
-
     public function prepareDebugPage($variable) {
         $this->title = 'Debug';
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)).'</pre>';
     }
 
+    /**
+     * Prépare la page pour la création d'un nouvel animal (formulaire).
+     * 
+     * @param AnimalBuilder $animalBuilder L'objet AnimalBuilder contenant les données et erreur du formulaire.
+     */
     public function prepareAnimalCreationPage(AnimalBuilder $animalBuilder) {
         $this->title = "Ajouter un animal";
         $nom = key_exists(AnimalBuilder::NAME_REF, $animalBuilder->getData()) ? $animalBuilder->getData()[AnimalBuilder::NAME_REF] : "";
@@ -131,6 +160,12 @@ class View {
         HTML;
     }
 
+    /**
+     * Affiche un message de succès après la création d'un animal.
+     * Et rédirige vers la page de l'animal.
+     * 
+     * @param int $id l'identifiant de l'animal crée
+     */
     public function displayAnimalCreationSuccess($id) {
         $url = $this->router->getAnimalURL($id);
         $this->feedback = "Succès de la création de l'animal";

@@ -1,5 +1,10 @@
 <?php 
-
+/**
+ * Classe de construction d'un animal
+ * Cette classe permet de valider les données d'un animal et de créer une instance de 'Animal'.
+ * Elle vérifie que les champs du formulaire sont correctement remplis et retourne une erreur si nécessaire.
+ * Elle stock les références vers les différents champs.
+ */
 class AnimalBuilder {
     public const NAME_REF = 'nom';
     public const SPECIES_REF = 'espece';
@@ -22,12 +27,22 @@ class AnimalBuilder {
         return $this->error;
     }
 
+    /**
+     * Crée une instance de l'animal avec les données validées.
+     * 
+     * @return Animal L'instance de l'animal créée.
+     */
     public function createAnimal() {
-        if($this->error !== null) {
-            throw new Exception("Valeurs des champs invalide: " . $this->error);
-        }
         return new Animal($this->data[self::NAME_REF], $this->data[self::SPECIES_REF], $this->data[self::AGE_REF], $this->data[self::IMAGE_REF]);
     }
+
+    /**
+     * Valide les données de l'animal
+     * Vérifie que le nom, l'espèce et l'âge sont présents et valides.
+     * Si une erreur est rencontrée, elle est stockée dans l'attribut $error.
+     * 
+     * @return bool Retourne true si les données sont valides et false sinon.
+     */
 
     public function isValid() {
         if(!key_exists(self::NAME_REF, $this->data) || $this->data[self::NAME_REF] === "") {

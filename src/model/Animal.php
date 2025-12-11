@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Cette classe répresente un animal avec ses caractéristiques principales.
+ * Elle permet de stocker les informations d'un animal comme son nom, son espèce, son âge ou encore le chemin vers son image
+ */
+
 class Animal {
     private String $nom;
     private String $espece;
