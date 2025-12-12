@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json; charset=utf-8');
 require_once('view/View.php');
 require_once('Router.php');
 require_once('model/AnimalBuilder.php');
@@ -22,7 +23,6 @@ class ApiView extends View {
      * Envoie la réponse JSON au client.
      */
     public function render() {
-        header('Content-Type: application/json; charset=utf-8');
         http_response_code($this->statusCode);
         echo json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
