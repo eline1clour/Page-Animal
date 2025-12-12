@@ -69,6 +69,7 @@ nav ul li a:hover {
 
 /* -------------------------- Page de l'animal -----------------*/
 .animal-page {
+    display: block;
     text-align: center;
     padding: 20px;
     margin: 30px auto;
@@ -85,14 +86,16 @@ nav ul li a:hover {
 } 
 
 .animal-text {
+    display: block;
     font-size: 1.2rem;
     color: #444;
     line-height: 1.5;
 }
 
-/* ------------------------- Page d'animal inconnu ---------------------*/
+/* ------------------------- Page d'animal inconnu et action inconnu ---------------------*/
 
 .error-page {
+    display: block;
     background-color: #f8d7da;
     color: #721c24;
     text-align: center;
@@ -103,19 +106,14 @@ nav ul li a:hover {
     border-radius: 10px;
 }
 
-.error-page h2 {
-    font-size: 35px;
+.error-title {
+    display: block;
+    font-size: 30px;
     font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.error-page p {
-    font-size: 25px;
-    margin-bottom: 20px;
 }
 
 .error-page a {
-    font-size: 25px;
+    font-size: 18px;
     color: #0056b3;
     text-decoration: none;
     font-weight: bold;
@@ -126,26 +124,19 @@ nav ul li a:hover {
 }
 
 /*------------------------- Page d'accueil -----------------------*/
-.accueil-page {
-    text-align: center;
-    padding: 30px;
-    background-color: #e8f0f7;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    margin: 40px auto;
-}
-
-.accueil-title {
-    font-size: 45px;
-    color: #333;
-    font-weight: bold;
-}
 
 .accueil-text {
     font-size: 25px;
     color: #555;
     line-height: 1.6;
+    text-align: center; /* On centre le texte */
+    padding: 20px;
+    background-color: #e8f0f7;
+    width: 80%;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 10px;
+    display: block;
 }
 
 /*---------------------------- Page liste des animaux --------------------------*/
@@ -159,7 +150,7 @@ nav ul li a:hover {
     list-style: none;
 }
 
-.animal-list li  {
+.animal-item {
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 10px;
@@ -168,13 +159,13 @@ nav ul li a:hover {
     font-size: 15px;
 }
 
-.animal-list a {
+.animal-item a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
 }
 
-.animal-list li:hover {
+.animal-item:hover {
     background-color: #e0e0e0;
 }
 
