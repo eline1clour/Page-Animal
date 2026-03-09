@@ -9,7 +9,7 @@ set_include_path("./src");
 require_once("Router.php");
 require_once("model/AnimalStorageSession.php");
 require_once("model/AnimalStorageMySQL.php");
-require_once('/users/ahmed232/private/mysql_config.php');
+require_once(__DIR__ . '/mysql_config.php');
 session_name("Site_Animaux");
 session_start();
 /*

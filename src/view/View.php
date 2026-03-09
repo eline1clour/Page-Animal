@@ -18,7 +18,8 @@ class View {
         $this->router = $router;
         $this->menu = [
             ['url' => 'site.php', 'texte' => 'Accueil'],
-            ['url' => 'site.php?action=liste', 'texte' => 'Liste des animaux']
+            ['url' => 'site.php?action=liste', 'texte' => 'Liste des animaux'],
+            ['url' => 'site.php?action=nouveau', 'texte' => 'Ajout des animaux']
         ];
         $this->feedback = $feedback;
     }
